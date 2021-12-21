@@ -3,7 +3,7 @@
     <v-card
       flat
       tile
-      class="indigo lighten-1 white--text text-center"
+      class="indigo lighten-2 white--text text-center"
       min-width="100%"
     >
       <v-card-text>
@@ -15,8 +15,7 @@
       </v-card-text>
 
       <v-card-text class="white--text pt-0">
-        Roktodan, a web app to simplify the process of blood donation. This is
-        an open source project.
+        Roktodan, a web app to simplify the process of blood donation.
       </v-card-text>
 
       <v-divider></v-divider>

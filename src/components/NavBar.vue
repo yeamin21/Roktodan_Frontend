@@ -2,17 +2,23 @@
   <div>
     <v-app-bar app color="red lighten-2" dark>
       <div class="d-flex align-center">
-        <v-btn href="/">
-          <v-img
+        <!-- <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
             contain
             src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
             transition="scale-transition"
             width="40"
-          />
-        </v-btn>
+          /> -->
 
+        <v-app-bar-title
+          ><v-btn text to="/"
+            ><v-icon left class="px-2" x-large color="white lighten-1"
+              >mdi-water-circle</v-icon
+            >
+            <a id="title" class="hidden-sm-and-down mx-2">Roktodan</a>
+          </v-btn></v-app-bar-title
+        >
         <!-- <v-img
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
@@ -26,7 +32,7 @@
       <v-spacer></v-spacer>
 
       <div v-if="authenticated">
-        <v-btn text>{{ this.username }}</v-btn>
+        <v-btn text to="/profile">{{ this.username }}</v-btn>
         <v-btn text @click="logout">Logout</v-btn>
       </div>
       <div v-else>
@@ -117,4 +123,7 @@ export default {
 </script>
 
 <style>
+#title {
+  color: white;
+}
 </style>

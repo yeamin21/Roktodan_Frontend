@@ -11,6 +11,16 @@ const routes = [
     component: Home
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/requests/:id',
+    name: 'Responses',
+    component: () => import('@/components/Responses.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import('../views/About.vue')

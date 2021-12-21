@@ -49,7 +49,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="date"
-                  label="Date"
+                  label="Need at Date"
                   prepend-inner-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -77,7 +77,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="time"
-                  label="Time"
+                  label="Need at Time"
                   prepend-inner-icon="mdi-clock-time-four-outline"
                   readonly
                   v-bind="attrs"
@@ -116,7 +116,7 @@ export default {
   emits: ["closeDialog"],
   data() {
     return {
-      hospitals: [{ id: 1, name: "BMSU", location: "Dhaka" }],
+      hospitals: [],
       hospital: "",
       no_bag_required: "",
       needs_on: "",
@@ -135,6 +135,7 @@ export default {
     axiosInstance
       .get("/bloodgroups")
       .then((res) => (this.blood_groups = res.data));
+    axiosInstance.get("/hospitals").then((res) => (this.hospitals = res.data));
   },
   methods: {
     addBloodRequest() {
@@ -143,12 +144,13 @@ export default {
           hospital: this.hospital,
           no_bag_required: this.no_bag_required,
           blood_group: this.blood_group,
-          needs_on: `${this.date} ${this.time}`,
+          needs_on: this.data && this.time ? `${this.date} ${this.time}` : null,
           is_emergency: this.is_emergency,
           phone_additional: this.phone_additional,
         })
         .then(() => {
           //this.snackbar = true;
+          this.$store.dispatch("requests/get");
           this.$emit("closeDialog");
         });
     },

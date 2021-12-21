@@ -27,12 +27,11 @@
                 <v-text-field
                   v-model="password"
                   label="Password"
-                  :type="field_pass_type"
-                >
-                  <v-icon slot="append" :color="eye_color" @click="toggleEye">
-                    mdi-eye
-                  </v-icon></v-text-field
-                >
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show ? 'text' : 'password'"
+                  @click:append="show = !show"
+                />
+
                 <v-card-actions>
                   <v-btn
                     text
@@ -142,6 +141,7 @@
                   v-model="phone"
                   label="Phone"
                   type="tel"
+                  placeholder="+8801234567891"
                 ></v-text-field>
                 <v-checkbox
                   v-model="share_phone"
@@ -195,7 +195,7 @@ export default {
         district: "",
         country: "",
       },
-      field_pass_type: "password",
+      show: false,
       eye_color: "green",
       e1: 1,
       modal: false,
@@ -260,7 +260,8 @@ export default {
           share_phone: this.share_phone,
           last_donation_date: this.last_donation_date,
         })
-        .then(() => (this.e1 = 4));
+        .then(() => (this.e1 = 4))
+        .then(() => this.$router.push("/"));
     },
     toggleEye() {
       if (this.field_pass_type == "password") {

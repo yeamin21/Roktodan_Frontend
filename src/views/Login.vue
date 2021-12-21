@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-container fill-height fluid class="login">
+    <v-row align="center" justify="center">
       <v-col class="d-flex align-center justify-center">
         <v-card elevation="2" outlined width="600px" class="px-4 pb-3">
           <v-card-title>Login</v-card-title>
@@ -31,15 +31,18 @@ export default {
   },
   methods: {
     authenticate() {
-      console.log(this.$store);
-      this.$store.dispatch("user/login", {
-        username: this.username,
-        password: this.password,
-      });
+      this.$store
+        .dispatch("user/login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => this.$router.push("/"));
     },
   },
 };
 </script>
 
 <style>
+.login {
+}
 </style>
