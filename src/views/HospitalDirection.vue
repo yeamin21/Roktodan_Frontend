@@ -62,7 +62,7 @@ export default {
               params: {
                 api_key: this.api_key,
                 start: `${position.coords.longitude},${position.coords.latitude}`,
-                end:`${this.des_lon},${this.des_lat}`,,
+                end:`${this.des_lon},${this.des_lat}`,
               },
             })
             .then((response) => (this.geojson = response.data));
