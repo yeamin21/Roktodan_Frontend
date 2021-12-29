@@ -290,7 +290,7 @@ export default {
       const locationDetails = await axios.get(
         `${locationProviderURL}/reverse?lat=${this.latitude}&lon=${this.longitude}&format=${dataFormat}`
       );
-      console.log(locationDetails);
+  
       const {
         quarter,
         suburb,

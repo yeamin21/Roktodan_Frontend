@@ -45,7 +45,8 @@ export default {
       headers: [
         { text: "Respondent", value: "respondent" },
         { text: "Phone", value: "phone" },
-        { text: "Fullfilled", value: "fullfilled" },
+        { text: "Fulfilled", value: "fullfilled" },
+        { text: "Track", value: "track" },
       ],
       responses: [],
     };
@@ -54,6 +55,7 @@ export default {
     axiosInstance
       .get("/responses/", { params: { request_id: this.$route.params.id } })
       .then((r) => (this.responses = r.data));
+  
   },
   methods: {
     updateFullfilled({ id, fullfilled }) {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import HospitalDirection from '../views/HospitalDirection.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -48,7 +48,12 @@ const routes = [
     path: '/track',
     name: 'Track',
     component: () => import('../views/Track.vue')
-  }
+  },
+  {
+    path: '/route',
+    name: 'Route',
+    component: HospitalDirection
+  },
 ]
 
 const router = new VueRouter({
