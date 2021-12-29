@@ -35,11 +35,11 @@ export default {
   beforeMount() {},
   created() {
     
-    axiosInstance.get('https://nominatim.openstreetmap.org/search.php',params:{
+    axiosInstance.get('https://nominatim.openstreetmap.org/search.php',{params:{
       street: this.$route.params.address,
       city: this.$route.params.city,  
       format: 'json',
-    }).then((r)=>{
+    }}).then((r)=>{
       this.des_lat = r.data.lat
       this.des_lon = r.data.lon
     }).then(()=>this.locateMe())
