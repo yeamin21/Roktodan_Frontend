@@ -112,31 +112,31 @@
             :headers="headers_responses"
             :items="self_blood_responses"
             ><template v-slot:item.created_at="{ item }">
-              {{ new Date(item.blood_request.created_at).toLocaleString() }}
+              {{ new Date(item.request_created_at).toLocaleString() }}
             </template>
             <template v-slot:item.needs_on="{ item }">
-              {{ new Date(item.blood_request.needs_on).toLocaleString() }}
+              {{ new Date(item.needs_on).toLocaleString() }}
             </template>
             <template v-slot:item.is_emergency="{ item }">
-              {{ item.blood_request.is_emergency === true ? "Yes" : "No" }}
+              {{ item.is_emergency === true ? "Yes" : "No" }}
             </template>
             <template v-slot:item.phone_additional="{ item }">
               {{
-                item.blood_request.phone_additional
-                  ? item.blood_request.phone_additional
+                item.phone_additional
+                  ? item.phone_additional
                   : "Not Provided"
               }}
             </template>
             <template v-slot:item.bag_managed="{ item }">
               {{
-                `${item.blood_request.no_bag_managed || 0}/${
-                  item.blood_request.no_bag_required
+                `${item.bag_managed || 0}/${
+                  item.bag_required
                 }`
               }}
             </template>
 
             <template v-slot:item.hospital_name="{ item }">
-              {{ item.blood_request.hospital_name }} </template
+              {{ item.hospital_name }} </template
             ><template v-slot:item.hospital_route="{ item }">
               <!-- <v-dialog
                 :retain-focus="false"
@@ -148,8 +148,8 @@
                 :to="{
                   name: 'Route',
                   params: {
-                    address: item.blood_request.hospital_name,
-                    city: item.blood_request.hospital_city,
+                    address: item.hospital_name,
+                    city: item.hospital_city,
                   },
                 }"
                 icon
