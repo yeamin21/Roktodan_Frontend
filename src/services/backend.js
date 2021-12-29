@@ -1,4 +1,4 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:8000/api'
+const baseUrl = 'https://yeamin21.pythonanywhere.com/api/'
 export const axiosInstance = axios.create({ baseURL: baseUrl, timeout: 10000 })
