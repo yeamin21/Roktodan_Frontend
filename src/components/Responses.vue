@@ -55,7 +55,6 @@ export default {
     axiosInstance
       .get("/responses/", { params: { request_id: this.$route.params.id } })
       .then((r) => (this.responses = r.data));
-  
   },
   methods: {
     updateFullfilled({ id, fullfilled }) {

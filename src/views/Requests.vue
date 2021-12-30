@@ -155,9 +155,9 @@ export default {
           this.snackbar = true;
           this.response_msg = "Suceess";
         })
-        .catch(() => {
+        .catch((r) => {
           this.snackbar = true;
-          this.response_msg = "Failed";
+          this.response_msg = `Failed: ${r.response.data}`;
         });
     },
   },
