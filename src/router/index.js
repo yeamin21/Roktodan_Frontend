@@ -54,6 +54,10 @@ const routes = [
     name: 'Route',
     component: HospitalDirection
   },
+  {
+    path: '/*',
+    component: () => import('../views/Error404.vue')
+  },
 ]
 
 const router = new VueRouter({
