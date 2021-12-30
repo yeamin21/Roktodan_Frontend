@@ -10,7 +10,7 @@
               >Required Informations</v-stepper-step
             >
             <v-stepper-content step="1">
-              <v-form @submit.prevent="register" lazy-validation>
+              <v-form @submit.prevent="register" ref="entryForm">
                 <v-card elevation="0">
                   <v-text-field
                     v-model="username"
@@ -65,130 +65,136 @@
               >Add Location</v-stepper-step
             >
             <v-stepper-content step="2">
-              <v-card elevation="0">
-                <v-text-field
-                  label="address"
-                  v-model="address.address"
-                  :rules="nameRules"
-                  ><v-icon
-                    slot="append"
-                    :color="located ? 'green' : null"
-                    @click="locateMe"
+              <v-form ref="addressForm" @submit.prevent="addAddress">
+                <v-card elevation="0">
+                  <v-text-field
+                    label="address"
+                    v-model="address.address"
+                    :rules="nameRules"
+                    ><v-icon
+                      slot="append"
+                      :color="located ? 'green' : null"
+                      @click="locateMe"
+                    >
+                      mdi-map-marker</v-icon
+                    ></v-text-field
                   >
-                    mdi-map-marker</v-icon
-                  ></v-text-field
-                >
-                <v-text-field
-                  type="number"
-                  label="Postcode"
-                  v-model="address.postcode"
-                  :rules="nameRules"
-                ></v-text-field>
-                <!-- :items="cities"
+                  <v-text-field
+                    type="number"
+                    label="Postcode"
+                    v-model="address.postcode"
+                    :rules="nameRules"
+                  ></v-text-field>
+                  <!-- :items="cities"
                   item-text="name"
                   item-value="name" -->
-                <v-text-field
-                  v-model="address.city"
-                  label="City/State"
-                  :rules="nameRules"
-                >
-                </v-text-field>
-                <v-text-field
-                  label="District"
-                  v-model="address.district"
-                  :rules="nameRules"
-                >
-                </v-text-field>
-                <v-card-actions>
-                  <v-btn
-                    text
-                    outlined
-                    color="primary lighten-2"
-                    @click="addAddress"
+                  <v-text-field
+                    v-model="address.city"
+                    label="City/State"
+                    :rules="nameRules"
                   >
-                    Add Address
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
+                  </v-text-field>
+                  <v-text-field
+                    label="District"
+                    v-model="address.district"
+                    :rules="nameRules"
+                  >
+                  </v-text-field>
+                  <v-card-actions>
+                    <v-btn
+                      text
+                      outlined
+                      type="submit"
+                      color="primary lighten-2"
+                    >
+                      Add Address
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
             </v-stepper-content>
 
             <v-stepper-step :complete="e1 > 3" step="3"
               >Complete Donor Profile</v-stepper-step
             >
             <v-stepper-content step="3">
-              <v-card elevation="0" class="px-2">
-                <v-select
-                  label="Blood Group"
-                  v-model="blood_group"
-                  :items="blood_groups"
-                  item-text="name"
-                  item-value="id"
-                  :rules="nameRules"
-                >
-                </v-select>
-                <v-dialog
-                  ref="dialog"
-                  v-model="modal"
-                  :return-value.sync="last_donation_date"
-                  persistent
-                  width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="last_donation_date"
-                      label="Last Donation Date"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                     
-                    >
-                      <v-icon slot="prepend-inner">mdi-calendar</v-icon>
-                      <v-icon
-                        slot="append-inner"
-                        color="red lighten-2"
-                        @click="last_donation_date = ''"
-                        >mdi-close-circle-outline</v-icon
-                      ></v-text-field
-                    >
-                  </template>
-                  <v-date-picker v-model="last_donation_date" scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn text outlined color="primary" @click="modal = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="primary"
-                      @click="$refs.dialog.save(last_donation_date)"
-                    >
-                      OK
-                    </v-btn>
-                  </v-date-picker>
-                </v-dialog>
+              <v-form ref="donorForm" @submit.prevent="createDonorProfile">
+                <v-card elevation="0" class="px-2">
+                  <v-select
+                    label="Blood Group"
+                    v-model="blood_group"
+                    :items="blood_groups"
+                    item-text="name"
+                    item-value="id"
+                    :rules="nameRules"
+                  >
+                  </v-select>
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal"
+                    :return-value.sync="last_donation"
+                    persistent
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="last_donation"
+                        label="Last Donation Date"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon slot="prepend-inner">mdi-calendar</v-icon>
+                        <v-icon
+                          slot="append-inner"
+                          color="red lighten-2"
+                          @click="last_donation = ''"
+                          >mdi-close-circle-outline</v-icon
+                        ></v-text-field
+                      >
+                    </template>
+                    <v-date-picker v-model="last_donation" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        text
+                        outlined
+                        color="primary"
+                        @click="modal = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(last_donation)"
+                      >
+                        OK
+                      </v-btn>
+                    </v-date-picker>
+                  </v-dialog>
 
-                <v-text-field
-                  v-model="phone"
-                  label="Phone"
-                  type="tel"
-                  placeholder="+8801234567891"
-                ></v-text-field>
-                <v-checkbox
-                  v-model="share_phone"
-                  label="Share Phone Number"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="is_donor"
-                  label="Register Me as a Donor"
-                ></v-checkbox>
-                <v-card-actions>
-                  <v-btn
-                    outlined
-                    color="green lighten-2"
-                    @click="createDonorProfile"
-                    >Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
+                  <v-text-field
+                    v-model="phone"
+                    label="Phone"
+                    type="tel"
+                    :rules="nameRules"
+                    placeholder="+8801234567891"
+                  ></v-text-field>
+                  <v-checkbox
+                    v-model="share_phone"
+                    label="Share Phone Number"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="is_donor"
+                    label="Register Me as a Donor"
+                  ></v-checkbox>
+                  <v-card-actions>
+                    <v-btn outlined color="green lighten-2" type="submit"
+                      >Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
             </v-stepper-content>
           </v-stepper>
 
@@ -215,7 +221,7 @@ export default {
       blood_group: "",
       is_donor: true,
       blood_groups: [],
-      last_donation_date: "",
+      last_donation: null,
       signup_loading: false,
       address: {
         address: "",
@@ -234,11 +240,6 @@ export default {
       located: false,
 
       nameRules: [(v) => !!v || "This field is required"],
-
-      // cities: [
-      //   { id: 1, name: "Dhaka" },
-      //   { id: 2, name: "Chittagong" },
-      // ],
     };
   },
   created() {
@@ -248,51 +249,57 @@ export default {
   },
   methods: {
     register() {
-      this.signup_loading = true;
-      axiosInstance
-        .post("/users/", {
-          username: this.username,
-          first_name: this.first_name,
-          last_name: this.last_name,
-          password: this.password,
-          email: this.email,
-        })
-        .then(() => {
-          this.$store
-            .dispatch("user/login", {
-              username: this.username,
-              password: this.password,
-            })
-            .then(() => {
-              this.signup_loading = false;
-              this.e1 = 2;
-            });
-        })
-        .catch(() => (this.signup_loading = false));
+      if (this.$refs.entryForm.validate()) {
+        this.signup_loading = true;
+        axiosInstance
+          .post("/users/", {
+            username: this.username,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            password: this.password,
+            email: this.email,
+          })
+          .then(() => {
+            this.$store
+              .dispatch("user/login", {
+                username: this.username,
+                password: this.password,
+              })
+              .then(() => {
+                this.signup_loading = false;
+                this.e1 = 2;
+              });
+          })
+          .catch(() => (this.signup_loading = false));
+      }
     },
 
     addAddress() {
-      axiosInstance
-        .post("/addresses/", {
-          address: this.address.address,
-          city: this.address.city,
-          postcode: this.address.postcode,
-          district: this.address.district,
-          country: this.address.country,
-        })
-        .then(() => (this.e1 = 3));
+      if (this.$refs.addressForm.validate()) {
+        axiosInstance
+          .post("/addresses/", {
+            address: this.address.address,
+            city: this.address.city,
+            postcode: this.address.postcode,
+            district: this.address.district,
+            country: this.address.country,
+          })
+          .then(() => (this.e1 = 3));
+      }
     },
     createDonorProfile() {
-      axiosInstance
-        .post("/donors/", {
-          blood_group: this.blood_group,
-          is_donor: this.is_donor,
-          phone: this.phone,
-          share_phone: this.share_phone,
-          last_donation_date: this.last_donation_date,
-        })
-        .then(() => (this.e1 = 4))
-        .then(() => this.$router.push("/"));
+      if (this.$refs.donorForm.validate()) {
+        axiosInstance
+          .post("/donors/", {
+            blood_group: this.blood_group,
+            is_donor: this.is_donor,
+            phone: this.phone,
+            share_phone: this.share_phone,
+            last_donation: this.last_donation,
+          })
+          .then(() => (this.e1 = 4))
+          .then(() => this.$router.push("/"));
+      }
     },
     toggleEye() {
       if (this.field_pass_type == "password") {

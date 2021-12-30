@@ -99,16 +99,16 @@ export default {
   data() {
     return {
       donors: [],
-      blood_groups: "",
+      blood_groups: [],
       blood_group: "",
       dialog_search_donor: false,
     };
   },
-  created() {
-    axiosInstance.get("/donors").then((res) => (this.donors = res.data));
-    axiosInstance
-      .get("/bloodgroups")
-      .then((res) => (this.blood_groups = res.data));
+  async created() {
+    const donor_response = await axiosInstance.get("/donors");
+    this.donors = donor_response.data;
+    const blood_groups = await axiosInstance.get("/bloodgroups");
+    this.blood_groups = blood_groups.data;
   },
   methods: {
     sendSMS(receiver) {
