@@ -10,40 +10,55 @@
               >Required Informations</v-stepper-step
             >
             <v-stepper-content step="1">
-              <v-card elevation="0">
-                <v-text-field
-                  v-model="username"
-                  label="Username"
-                ></v-text-field>
-                <v-text-field
-                  v-model="first_name"
-                  label="Fisrt Name"
-                ></v-text-field>
-                <v-text-field
-                  v-model="last_name"
-                  label="Last Name"
-                ></v-text-field>
-                <v-text-field v-model="email" label="email"></v-text-field>
-                <v-text-field
-                  v-model="password"
-                  label="Password"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show ? 'text' : 'password'"
-                  @click:append="show = !show"
-                />
+              <v-form @submit.prevent="register" lazy-validation>
+                <v-card elevation="0">
+                  <v-text-field
+                    v-model="username"
+                    label="Username"
+                    required
+                    :rules="nameRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="first_name"
+                    label="Fisrt Name"
+                    required
+                    :rules="nameRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="last_name"
+                    label="Last Name"
+                    required
+                    :rules="nameRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="email"
+                    label="email"
+                    required
+                    :rules="nameRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    label="Password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
+                    required
+                    :rules="nameRules"
+                  />
 
-                <v-card-actions>
-                  <v-btn
-                    text
-                    outlined
-                    color="primary lighten-2"
-                    @click="register"
-                    :loading="signup_loading"
-                  >
-                    Register
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
+                  <v-card-actions>
+                    <v-btn
+                      text
+                      outlined
+                      color="primary lighten-2"
+                      type="submit"
+                      :loading="signup_loading"
+                    >
+                      Register
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
             </v-stepper-content>
 
             <v-stepper-step :complete="e1 > 2" step="2"
@@ -51,7 +66,10 @@
             >
             <v-stepper-content step="2">
               <v-card elevation="0">
-                <v-text-field label="address" v-model="address.address"
+                <v-text-field
+                  label="address"
+                  v-model="address.address"
+                  :rules="nameRules"
                   ><v-icon
                     slot="append"
                     :color="located ? 'green' : null"
@@ -64,13 +82,22 @@
                   type="number"
                   label="Postcode"
                   v-model="address.postcode"
+                  :rules="nameRules"
                 ></v-text-field>
                 <!-- :items="cities"
                   item-text="name"
                   item-value="name" -->
-                <v-text-field v-model="address.city" label="City/State">
+                <v-text-field
+                  v-model="address.city"
+                  label="City/State"
+                  :rules="nameRules"
+                >
                 </v-text-field>
-                <v-text-field label="District" v-model="address.district">
+                <v-text-field
+                  label="District"
+                  v-model="address.district"
+                  :rules="nameRules"
+                >
                 </v-text-field>
                 <v-card-actions>
                   <v-btn
@@ -96,6 +123,7 @@
                   :items="blood_groups"
                   item-text="name"
                   item-value="id"
+                  :rules="nameRules"
                 >
                 </v-select>
                 <v-dialog
@@ -112,6 +140,7 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                     
                     >
                       <v-icon slot="prepend-inner">mdi-calendar</v-icon>
                       <v-icon
@@ -204,6 +233,8 @@ export default {
       longitude: null,
       located: false,
 
+      nameRules: [(v) => !!v || "This field is required"],
+
       // cities: [
       //   { id: 1, name: "Dhaka" },
       //   { id: 2, name: "Chittagong" },
@@ -290,7 +321,7 @@ export default {
       const locationDetails = await axios.get(
         `${locationProviderURL}/reverse?lat=${this.latitude}&lon=${this.longitude}&format=${dataFormat}`
       );
-  
+
       const {
         quarter,
         suburb,

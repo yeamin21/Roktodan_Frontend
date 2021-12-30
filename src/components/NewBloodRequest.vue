@@ -12,6 +12,7 @@
               :items="blood_groups"
               item-text="name"
               item-value="id"
+              :rules="nameRules"
             >
             </v-select>
           </v-col>
@@ -20,6 +21,7 @@
               label="No of Bag Required"
               v-model="no_bag_required"
               type="number"
+              :rules="nameRules"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -30,6 +32,7 @@
           item-text="name"
           item-value="id"
           v-model="hospital"
+          :rules="nameRules"
         ></v-autocomplete>
         <v-text-field
           label="Additional Contact Number"
@@ -54,6 +57,7 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  :rules="nameRules"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -82,6 +86,7 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  :rules="nameRules"
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -90,6 +95,7 @@
                 full-width
                 ampm-in-title
                 format="ampm"
+                
                 @click:minute="$refs.menu.save(time)"
               ></v-time-picker>
             </v-menu>
@@ -116,6 +122,7 @@ export default {
   emits: ["closeDialog"],
   data() {
     return {
+      nameRules: [(v) => !!v || "This field is required"],
       hospitals: [],
       hospital: "",
       no_bag_required: "",
